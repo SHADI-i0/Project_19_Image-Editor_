@@ -53,7 +53,7 @@ upLoad.onchange = function () {
 
 let filters = document.querySelectorAll("ul li input")
 filters.forEach((filter) => {
-    filter.addEventListener("input", () => {
+    filter.addEventListener("change", () => {
         ctx.filter = `
         saturate(${saturate.value}%)
         contrast(${contrast.value}%)
