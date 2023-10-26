@@ -16,6 +16,7 @@ let ctx = canvas.getContext('2d')
 reset.addEventListener("click", resetValue)
 
 function resetValue() {
+    canvas.style.filter = "none"
     saturate.value = '100'
     contrast.value = '100'
     brightness.value = '100'
@@ -52,7 +53,7 @@ upLoad.onchange = function () {
 let filters = document.querySelectorAll("ul li input")
 filters.forEach((filter) => {
     filter.addEventListener("input", () => {
-        ctx.filter = `
+        canvas.style.filter = `
         saturate(${saturate.value}%)
         contrast(${contrast.value}%)
         brightness(${brightness.value}%)
