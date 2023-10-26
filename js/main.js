@@ -13,10 +13,11 @@ let imgSrc = document.querySelector(".image")
 let canvas = document.getElementById("canvas")
 let ctx = canvas.getContext('2d')
 
+
+
 reset.addEventListener("click", resetValue)
 
 function resetValue() {
-    canvas.style.filter = "none"
     saturate.value = '100'
     contrast.value = '100'
     brightness.value = '100'
@@ -38,22 +39,22 @@ upLoad.onchange = function () {
     reset.style.display = "block";
     imgBox.style.display = "block";
     let file = new FileReader();
-    file.readAsDataURL(upLoad.files[0])
     file.onload = function () {
+        imgSrc.onload = function () {
+            canvas.width = imgSrc.width;
+            canvas.height = imgSrc.height;
+            ctx.drawImage(imgSrc, 0, 0, canvas.width, canvas.height)
+            imgSrc.style.display = "none";
+        }
         imgSrc.src = file.result;
     }
-    imgSrc.onload = function () {
-        canvas.width = imgSrc.width
-        canvas.height = imgSrc.height
-        ctx.drawImage(imgSrc, 0, 0, canvas.width, canvas.height)
-        imgSrc.style.display = "none";
-    }
+    file.readAsDataURL(upLoad.files[0])
 }
 
 let filters = document.querySelectorAll("ul li input")
 filters.forEach((filter) => {
     filter.addEventListener("input", () => {
-        canvas.style.filter = `
+        ctx.filter = `
         saturate(${saturate.value}%)
         contrast(${contrast.value}%)
         brightness(${brightness.value}%)
@@ -62,10 +63,10 @@ filters.forEach((filter) => {
         blur(${blur.value}px)
         hue-rotate(${hueRotate.value}deg)
         `
-        ctx.drawImage(imgSrc, 0, 0, canvas.width, canvas.height)
+        ctx.drawImage(imgSrc, 0, 0,canvas.width, canvas.height);
     })
 })
 
 download.onclick = function () {
-    download.href = canvas.toDataURL();
+    download.href = canvas.toDataURL("image/png");
 }
